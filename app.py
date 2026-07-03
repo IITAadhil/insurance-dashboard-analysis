@@ -110,3 +110,85 @@ fig_device = px.pie(
 )
 
 st.plotly_chart(fig_device, use_container_width=True)
+
+st.markdown("---")
+st.subheader("📈 Revenue vs Users")
+
+fig_scatter = px.scatter(
+    filtered_df,
+    x="Users",
+    y="Revenue",
+    color="Marketing Channel",
+    size="TotalNumberOfInsuranceQuotes",
+    hover_data=[
+        "Device Category",
+        "TotalNumberOfInsurancePoliciesPurchaed"
+    ],
+    title="Relationship Between Users and Revenue"
+)
+
+st.plotly_chart(fig_scatter, use_container_width=True)
+
+st.markdown("---")
+st.subheader("📝 Quotes vs Policies Purchased")
+quotes_policies = filtered_df.groupby("Marketing Channel")[
+    [
+        "TotalNumberOfInsuranceQuotes",
+        "TotalNumberOfInsurancePoliciesPurchaed"
+    ]
+].sum().reset_index()
+quotes_policies = quotes_policies.melt(
+    id_vars="Marketing Channel",
+    var_name="Metric",
+    value_name="Count"
+)
+fig_quotes = px.bar(
+    quotes_policies,
+    x="Marketing Channel",
+    y="Count",
+    color="Metric",
+    barmode="group",
+    title="Insurance Quotes vs Policies Purchased"
+)
+
+st.plotly_chart(fig_quotes, use_container_width=True)
+
+st.markdown("---")
+st.subheader("⏱ Average Session Duration by Marketing Channel")
+session_duration = (
+    filtered_df.groupby("Marketing Channel")["Avg. Session Duration"]
+    .mean()
+    .reset_index()
+)
+fig_duration = px.bar(
+    session_duration,
+    x="Marketing Channel",
+    y="Avg. Session Duration",
+    color="Marketing Channel",
+    text_auto=".2f",
+    title="Average Session Duration"
+)
+
+fig_duration.update_layout(showlegend=False)
+
+st.plotly_chart(fig_duration, use_container_width=True)
+
+st.markdown("---")
+st.subheader("📄 Average Pages per Session by Marketing Channel")
+pages_session = (
+    filtered_df.groupby("Marketing Channel")["Pages / Session"]
+    .mean()
+    .reset_index()
+)
+fig_pages = px.bar(
+    pages_session,
+    x="Marketing Channel",
+    y="Pages / Session",
+    color="Marketing Channel",
+    text_auto=".2f",
+    title="Average Pages per Session"
+)
+
+fig_pages.update_layout(showlegend=False)
+
+st.plotly_chart(fig_pages, use_container_width=True)
