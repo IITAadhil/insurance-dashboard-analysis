@@ -39,5 +39,26 @@ filtered_df = df[
     (df["Device Category"].isin(device_category))
 ]
 
-st.dataframe(filtered_df)
+# KPI Section
+st.subheader("Key Performance Indicators")
 
+col1, col2, col3, col4 = st.columns(4)
+
+total_users = filtered_df["Users"].sum()
+total_revenue = filtered_df["Revenue"].sum()
+total_quotes = filtered_df["TotalNumberOfInsuranceQuotes"].sum()
+total_policies = filtered_df["TotalNumberOfInsurancePoliciesPurchaed"].sum()
+
+with col1:
+    st.metric("👥 Total Users", f"{total_users:,}")
+
+with col2:
+    st.metric("💰 Total Revenue", f"${total_revenue:,.2f}")
+
+with col3:
+    st.metric("📝 Insurance Quotes", f"{total_quotes:,}")
+
+with col4:
+    st.metric("📄 Policies Purchased", f"{total_policies:,}")
+
+st.markdown("---")    
