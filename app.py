@@ -61,4 +61,52 @@ with col3:
 with col4:
     st.metric("📄 Policies Purchased", f"{total_policies:,}")
 
-st.markdown("---")    
+st.markdown("---") 
+
+st.subheader("📊 Users by Marketing Channel")
+users_channel = filtered_df.groupby("Marketing Channel")["Users"].sum().reset_index()
+fig_users = px.bar(
+    users_channel,
+    x="Marketing Channel",
+    y="Users",
+    color="Marketing Channel",
+    text="Users",
+    title="Total Users by Marketing Channel"
+)
+fig_users.update_layout(
+    xaxis_title="Marketing Channel",
+    yaxis_title="Number of Users",
+    showlegend=False
+)
+st.plotly_chart(fig_users, use_container_width=True)
+
+st.subheader("💰 Revenue by Marketing Channel")
+revenue_channel = filtered_df.groupby("Marketing Channel")["Revenue"].sum().reset_index()
+fig_revenue = px.bar(
+    revenue_channel,
+    x="Marketing Channel",
+    y="Revenue",
+    color="Marketing Channel",
+    text="Revenue",
+    title="Revenue by Marketing Channel"
+)
+
+fig_revenue.update_layout(
+    xaxis_title="Marketing Channel",
+    yaxis_title="Revenue",
+    showlegend=False
+)
+
+st.plotly_chart(fig_revenue, use_container_width=True)
+
+st.subheader("📱 Users by Device Category")
+device_users = filtered_df.groupby("Device Category")["Users"].sum().reset_index()
+fig_device = px.pie(
+    device_users,
+    names="Device Category",
+    values="Users",
+    title="Users by Device Category",
+    hole=0.4
+)
+
+st.plotly_chart(fig_device, use_container_width=True)
