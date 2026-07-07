@@ -40,9 +40,6 @@ print("\n========== TOTAL POLICIES SOLD ==========")
 print(df["TotalNumberOfInsurancePoliciesPurchaed"].sum())
 
 print("\n========== CORRELATION ==========")
-
-print("\n========== CORRELATION ==========")
-
 print(df[[
     "Users",
     "Pages / Session",
